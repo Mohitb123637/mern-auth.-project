@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   signInSuccess,
   signInFailure,
   signInstart,
-} from "../redux/user/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Oauth from "../components/Oauth";
+} from '../redux/user/userSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import Oauth from '../components/Oauth';
 
 const Signin = () => {
   const [formData, setFormData] = useState({});
-const{loading, error} = useSelector((state)=> state.user);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -21,22 +21,22 @@ const{loading, error} = useSelector((state)=> state.user);
     e.preventDefault();
     try {
       dispatch(signInstart());
-      const res = await fetch("/api/auth/signin", {
-        method: "POST",
+      const res = await fetch('/api/auth/signin', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
       dispatch(signInSuccess(data));
       if (data.success === false) {
-       dispatch(signInFailure(data));
+        dispatch(signInFailure(data));
         return;
       }
-      navigate("/");
+      navigate('/');
     } catch (error) {
-  dispatch(signInFailure(error));
+      dispatch(signInFailure(error));
     }
   };
 
@@ -62,9 +62,9 @@ const{loading, error} = useSelector((state)=> state.user);
           disabled={loading}
           className="bg-slate-700 to-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? "Loading..." : "Sign In"}
+          {loading ? 'Loading...' : 'Sign In'}
         </button>
-        <Oauth/>
+        <Oauth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>
@@ -75,7 +75,7 @@ const{loading, error} = useSelector((state)=> state.user);
         </p>
       </div>
       <p className="text-red-600 mt-5 font-semibold">
-        {error ? error.message || "Something went wrong..!": ""}
+        {error ? error.message || 'Something went wrong..!' : ''}
       </p>
     </div>
   );
